@@ -65,6 +65,7 @@
         function getMessages(){
             $.get('http://localhost:2000/messages/', (data) => {
                 console.log(data);
+                data.forEach(addMessage);
             })
         }
 
