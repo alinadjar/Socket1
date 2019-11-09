@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Title...</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Send Message</h1>
+            <input id="name" class="form-control" placeholder="name" style="margin: 5px 0" />
+            <input id="message" class="form-control" placeholder="message" style="margin: 5px 0" />
+            <button id="send" class="btn btn-success">Send</button>
+        </div>
+
+
+        <div id="messageDIV">
+
+        </div>
+    </div>
+
+
+
+
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script>
+        // short hand version for $(document).rady() is:
+        // $( () => {})
+
+        $(() => {
+
+            getMessages();
+
+            $('#send').click(() => {
+                //addMessgae({ name: "Ali", message: "Hi there ..." });
+                const obj = {
+                    name: $('#name').val(),
+                    message: $('#message').val()
+                };
+                
+                console.log(obj);
+
+                postMessage(obj);
+            });
+
+
+        })
+
+        function addMessgae(message) {
+            $('#messageDIV').append(`<h4>${message.name}</h4> <p>${message.message}</p>`);
+        }
+
+
+        function getMessages(){
+            $.get('http://localhost:2000/messages/', (data) => {
+                console.log(data);
+            })
+        }
+
+        function postMessage(message) {
+            $.post('http://localhost:2000/messages/', message);
+        }
+
+
+
+    </script>
+</body>
+
+</html>
