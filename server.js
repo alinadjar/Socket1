@@ -23,10 +23,18 @@ const io = require('socket.io')(http);
 
 io.on('connection', (socket) => {
     console.log('user connected');
+    socket.on('disconnect', function(){
+        console.log('user disconnected');
+    });
 });
 
 
-
+// CORS
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");  
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");  
+    next();  
+  });
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -43,7 +51,7 @@ app.get('/messages', (req, res) => {
 app.post('/messages', ((req, res) => {    
     const messageInstance = new Message(req.body);
     messageInstance.save((err) => {
-        if(err) 
+        if(err)  
             res.sendStatus(500);
 
         io.emit('message', req.body);
